@@ -1,11 +1,9 @@
 import React from 'react';
-import { useFieldArray, UseFormMethods } from 'react-hook-form';
-import NestedArray from './nestedFieldArray';
+import { useFieldArray } from 'react-hook-form';
+import { InputProps } from './InputProps';
+import NestedArray from './NestedFieldArray';
 
 let renderCount = 0;
-
-interface InputProps
-  extends Pick<UseFormMethods, 'control' | 'register' | 'errors' | 'setValue' | 'getValues'> {}
 
 export default function FieldArray({ control, register, errors, setValue, getValues }: InputProps) {
   const { fields, append, remove, prepend } = useFieldArray({
@@ -22,11 +20,13 @@ export default function FieldArray({ control, register, errors, setValue, getVal
           return (
             <li key={item.id}>
               <input name={`test[${index}].name`} ref={register()} defaultValue={item.name} />
-
               <button type='button' onClick={() => remove(index)}>
                 Delete
               </button>
-              <NestedArray nestIndex={index} {...{ control, register }} />
+              <NestedArray
+                nestIndex={index}
+                {...{ control, register, errors, setValue, getValues }}
+              />
             </li>
           );
         })}

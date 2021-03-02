@@ -1,10 +1,22 @@
-import React from "react";
-import { useFieldArray } from "react-hook-form";
+import React from 'react';
+import { useFieldArray } from 'react-hook-form';
+import { InputProps } from './InputProps';
 
-export default ({ nestIndex, control, register }) => {
+export interface IProps extends InputProps {
+  nestIndex: number;
+}
+
+export default function NestedFieldArray({
+  nestIndex,
+  control,
+  register,
+  errors,
+  setValue,
+  getValues,
+}: IProps) {
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `test[${nestIndex}].nestedArray`
+    name: `test[${nestIndex}].nestedArray`,
   });
 
   return (
@@ -17,7 +29,7 @@ export default ({ nestIndex, control, register }) => {
               name={`test[${nestIndex}].nestedArray[${k}].field1`}
               ref={register({ required: true })}
               defaultValue={item.field1}
-              style={{ marginRight: "25px" }}
+              style={{ marginRight: '25px' }}
             />
 
             <input
@@ -25,7 +37,7 @@ export default ({ nestIndex, control, register }) => {
               ref={register()}
               defaultValue={item.field2}
             />
-            <button type="button" onClick={() => remove(k)}>
+            <button type='button' onClick={() => remove(k)}>
               Delete Nested
             </button>
           </div>
@@ -33,11 +45,11 @@ export default ({ nestIndex, control, register }) => {
       })}
 
       <button
-        type="button"
+        type='button'
         onClick={() =>
           append({
-            field1: "field1",
-            field2: "field2"
+            field1: 'field1',
+            field2: 'field2',
           })
         }
       >
@@ -47,4 +59,4 @@ export default ({ nestIndex, control, register }) => {
       <hr />
     </div>
   );
-};
+}
