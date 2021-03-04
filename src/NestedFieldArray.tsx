@@ -37,14 +37,14 @@ export default function NestedFieldArray({
               ref={register()}
               defaultValue={item.field2}
             />
-            <button type='button' onClick={() => remove(k)}>
+            {/* <button type='button' onClick={() => remove(k)}>
               Delete Nested
-            </button>
+            </button> */}
           </div>
         );
       })}
 
-      <button
+      {/* <button
         type='button'
         onClick={() =>
           append({
@@ -54,7 +54,7 @@ export default function NestedFieldArray({
         }
       >
         Append Nested
-      </button>
+      </button> */}
 
       <hr />
     </div>
