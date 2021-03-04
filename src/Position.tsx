@@ -16,28 +16,28 @@ export default function Position({
 }: IPositionProps) {
   return (
     <div>
-      <input type='text' name={`test[${nestIndex}].latitude`} ref={register}></input>
-      {errors && errors.test && errors.test[nestIndex] && errors.test[nestIndex].latitude && (
+      <input type='text' name={`list[${nestIndex}].latitude`} ref={register}></input>
+      {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].latitude && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {errors.test[nestIndex].latitude.message}
+          {errors.list[nestIndex].latitude.message}
         </span>
       )}
-      <input type='text' name={`test[${nestIndex}].longitude`} ref={register}></input>
-      {errors && errors.test && errors.test[nestIndex] && errors.test[nestIndex].longitude && (
+      <input type='text' name={`list[${nestIndex}].longitude`} ref={register}></input>
+      {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].longitude && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {errors.test[nestIndex].longitude.message}
+          {errors.list[nestIndex].longitude.message}
         </span>
       )}
       <input
         readOnly
         type='text'
         ref={register}
-        name={`test[${nestIndex}].type`}
+        name={`list[${nestIndex}].type`}
         value={'position'}
       />
-      {errors && errors.test && errors.test[nestIndex] && errors.test[nestIndex].longitude && (
+      {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].longitude && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {errors.test[nestIndex].longitude.message}
+          {errors.list[nestIndex].longitude.message}
         </span>
       )}
     </div>

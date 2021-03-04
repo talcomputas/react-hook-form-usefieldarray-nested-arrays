@@ -8,26 +8,26 @@ export interface ISelectProps extends InputProps {
 export default function Select({ nestIndex, register, errors }: ISelectProps) {
   return (
     <div>
-      <select name={`test[${nestIndex}].bobbo`} ref={register}>
-        <option value='1'>1</option>
-        <option value='2'>2</option>
-        <option value='300000'>300000</option>
+      <select name={`list[${nestIndex}].color`} ref={register}>
+        <option value={'red'}>red</option>
+        <option value={'blue'}>blue</option>
+        <option value={'yellow'}>yellow</option>
       </select>
-      {errors && errors.test && errors.test[nestIndex] && errors.test[nestIndex].bobbo && (
+      {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].color && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {JSON.stringify(errors.test[nestIndex].bobbo)}
+          {JSON.stringify(errors.list[nestIndex].color)}
         </span>
       )}
       <input
         readOnly
         type='text'
         ref={register}
-        name={`test[${nestIndex}].type`}
+        name={`list[${nestIndex}].type`}
         defaultValue={'select'}
       />
-      {errors && errors.test && errors.test[nestIndex] && errors.test[nestIndex].type && (
+      {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].type && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {JSON.stringify(errors.test[nestIndex].type)}
+          {JSON.stringify(errors.list[nestIndex].type)}
         </span>
       )}
     </div>

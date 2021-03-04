@@ -8,6 +8,7 @@ import Joi from 'joi';
 
 import './styles.css';
 import FieldArray from './FieldArray';
+import { parsePhoneNumber } from 'libphonenumber-js';
 
 export type nestedArrayType = {
   field1: string;
@@ -20,17 +21,17 @@ export type formArrayData = {
 };
 
 type FormData = {
-  test: formArrayData[];
+  list: formArrayData[];
 };
 
 const defaultValues: FormData = {
-  test: [],
+  list: [],
 };
 
-const selectSchema = {
-  bobbo: Joi.string().alphanum().min(3).max(6).required(),
-  type: Joi.string().min(1).required(),
-};
+const selectSchema = Joi.object().keys({
+  color: Joi.string().equal('yellow').required(),
+  type: Joi.string().required().equal('selected'),
+});
 
 const positionSchema = Joi.object().keys({
   latitude: Joi.string().alphanum().min(1).max(4).required(),
@@ -38,12 +39,38 @@ const positionSchema = Joi.object().keys({
   type: Joi.string().min(1).required(),
 });
 
-const arraySchema = Joi.array().items(selectSchema, positionSchema).min(1).required();
+const arraySchema = Joi.array().items(selectSchema, positionSchema).required();
+
+/*const arraySchema = Joi.array()
+  .items(Joi.when('type', { is: 'select', then: selectSchema }))
+  .min(1)
+  .required();*/
+
+const isValidPhoneNumber = (phoneNumber: string, helper: { error: (arg0: string) => any }) => {
+  const res = parsePhoneNumber(phoneNumber, 'NO');
+  if (res !== undefined && res.isValid()) {
+    return phoneNumber;
+  }
+  return helper.error('phoneNumber.invalid');
+};
+
+const phoneNumberSchema = Joi.string().custom(isValidPhoneNumber).required();
 
 const validationSchema = Joi.object({
   username: Joi.string().alphanum().min(6).max(30).required(),
   age: Joi.string().alphanum().min(3).max(30).required(),
-  test: Joi.alternatives().try(arraySchema),
+  phoneNumber: phoneNumberSchema,
+  list: Joi.array()
+    .items(
+      Joi.alternatives().conditional('.type', {
+        switch: [
+          { is: 'select', then: selectSchema },
+          { is: 'position', then: positionSchema },
+        ],
+      })
+    )
+    .min(1)
+    .required(),
 });
 
 const resolver = (data: any) => {
@@ -51,11 +78,12 @@ const resolver = (data: any) => {
     abortEarly: false,
     stripUnknown: false,
   });
-
   return {
     values: error ? {} : values,
     errors: error
       ? error.details.reduce((previous, currentError) => {
+          console.log('prev');
+          console.log(currentError);
           return {
             ...previous,
             [currentError.path[0]]: currentError,
@@ -73,6 +101,8 @@ function App() {
   const defaultValues = {
     username: 'Trond2',
     age: 479,
+    phoneNumber: '+47 97955731',
+    list: [],
   };
 
   const { control, register, handleSubmit, reset, errors, getValues, setValue } = useForm({
@@ -92,7 +122,13 @@ function App() {
       {errors && errors.age && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>{errors.age.message}</span>
       )}
+      <input type='text' name='phoneNumber' ref={register} />
       <FieldArray {...{ control, register, defaultValues, getValues, setValue, errors }} />
+      {errors && errors.list && (
+        <span style={{ backgroundColor: 'red', color: 'white' }}>
+          {JSON.stringify(errors.list)}
+        </span>
+      )}
 
       <div style={{ color: 'red' }}>
         <pre>
