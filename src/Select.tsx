@@ -15,7 +15,7 @@ export default function Select({ nestIndex, register, errors }: ISelectProps) {
       </select>
       {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].color && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {JSON.stringify(errors.list[nestIndex].color)}
+          {errors.list[nestIndex].color.message}
         </span>
       )}
       <input
@@ -27,7 +27,7 @@ export default function Select({ nestIndex, register, errors }: ISelectProps) {
       />
       {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].type && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {JSON.stringify(errors.list[nestIndex].type)}
+          {errors.list[nestIndex].type.message}
         </span>
       )}
     </div>

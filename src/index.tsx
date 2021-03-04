@@ -30,7 +30,7 @@ const defaultValues: FormData = {
 
 const selectSchema = Joi.object().keys({
   color: Joi.string().equal('yellow').required(),
-  type: Joi.string().required().equal('selected'),
+  type: Joi.string().equal('select').required(),
 });
 
 const positionSchema = Joi.object().keys({
@@ -48,13 +48,18 @@ const arraySchema = Joi.array().items(selectSchema, positionSchema).required();
 
 const isValidPhoneNumber = (phoneNumber: string, helper: { error: (arg0: string) => any }) => {
   const res = parsePhoneNumber(phoneNumber, 'NO');
+  console.log(res);
   if (res !== undefined && res.isValid()) {
     return phoneNumber;
   }
+  // return helper.error;
   return helper.error('phoneNumber.invalid');
 };
 
-const phoneNumberSchema = Joi.string().custom(isValidPhoneNumber).required();
+const phoneNumberSchema = Joi.string()
+  .custom(isValidPhoneNumber)
+  .message('phoneNumber is invalid')
+  .required();
 
 const validationSchema = Joi.object({
   username: Joi.string().alphanum().min(6).max(30).required(),
@@ -73,7 +78,7 @@ const validationSchema = Joi.object({
     .required(),
 });
 
-const resolver = (data: any) => {
+/*const resolver = (data: any) => {
   const { error, value: values } = validationSchema.validate(data, {
     abortEarly: false,
     stripUnknown: false,
@@ -91,7 +96,7 @@ const resolver = (data: any) => {
         }, {})
       : {},
   };
-};
+};*/
 
 function App() {
   /*const { control, register, handleSubmit, getValues, errors, reset, setValue } = useForm({
@@ -106,7 +111,7 @@ function App() {
   };
 
   const { control, register, handleSubmit, reset, errors, getValues, setValue } = useForm({
-    resolver,
+    resolver: joiResolver(validationSchema),
     defaultValues,
   });
 
@@ -123,6 +128,9 @@ function App() {
         <span style={{ backgroundColor: 'red', color: 'white' }}>{errors.age.message}</span>
       )}
       <input type='text' name='phoneNumber' ref={register} />
+      {errors && errors.phoneNumber && (
+        <span style={{ backgroundColor: 'red', color: 'white' }}>{errors.phoneNumber.message}</span>
+      )}
       <FieldArray {...{ control, register, defaultValues, getValues, setValue, errors }} />
       {errors && errors.list && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
