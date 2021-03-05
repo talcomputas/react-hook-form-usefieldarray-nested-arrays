@@ -21,7 +21,7 @@ export type ArrayData = {
 };*/
 
 export interface Savable {
-  guid: string;
+  id: string;
   type: string;
 }
 
@@ -44,13 +44,13 @@ type FormData = {
 };
 
 const selectSchema = Joi.object().keys({
-  guid: Joi.string().allow(null, ''),
+  id: Joi.string().allow(null, '').required(),
   color: Joi.string().equal('yellow').required(),
   type: Joi.string().equal('select').required(),
 });
 
 const positionSchema = Joi.object().keys({
-  guid: Joi.string().allow(null, ''),
+  id: Joi.string().allow(null, '').required(),
   latitude: Joi.string().alphanum().min(1).max(4).required(),
   longitude: Joi.string().min(1).max(4).required(),
   type: Joi.string().min(1).required(),
@@ -128,12 +128,12 @@ function App() {
     phoneNumber: '+47 97955731',
     list: [
       {
+        id: '22222222',
         type: 'select',
-        guid: '43443434',
         color: 'blue',
       },
       {
-        guid: '666666',
+        id: '333333',
         type: 'position',
         latitude: '30',
         longitude: '40',

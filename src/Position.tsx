@@ -38,6 +38,13 @@ export default function Position({ nestIndex, defaultValue, register, errors }: 
         name={`list[${nestIndex}].type`}
         value={'position'}
       />
+      <input
+        readOnly
+        type='text'
+        name={`list[${nestIndex}].id`}
+        ref={register}
+        defaultValue={defaultValue.id}
+      />
       {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].longitude && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
           {errors.list[nestIndex].longitude.message}

@@ -9,6 +9,7 @@ let renderCount = 0;
 
 export default function FieldArray({ control, register, errors, setValue, getValues }: InputProps) {
   const { fields, append } = useFieldArray({
+    keyName: 'guid',
     control,
     name: 'list',
   });

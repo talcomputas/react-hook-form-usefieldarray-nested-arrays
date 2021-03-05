@@ -31,6 +31,12 @@ export default function Select({ nestIndex, defaultValue, register, errors }: IS
         name={`list[${nestIndex}].type`}
         defaultValue={defaultValue.type}
       />
+      <input
+        type='text'
+        ref={register}
+        name={`list[${nestIndex}].id`}
+        defaultValue={defaultValue.id}
+      />
       {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].type && (
         <span style={{ backgroundColor: 'red', color: 'white' }}>
           {errors.list[nestIndex].type.message}
