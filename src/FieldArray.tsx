@@ -8,11 +8,10 @@ import Select from './Select';
 let renderCount = 0;
 
 export default function FieldArray({ control, register, errors, setValue, getValues }: InputProps) {
-  const { fields, append, remove, prepend } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
-    name: 'test',
+    name: 'list',
   });
-
   renderCount++;
 
   return (
@@ -24,6 +23,7 @@ export default function FieldArray({ control, register, errors, setValue, getVal
               {item.type === 'select' && (
                 <Select
                   nestIndex={index}
+                  defaultValue={item}
                   {...{ control, register, errors, setValue, getValues }}
                 ></Select>
               )}
@@ -31,6 +31,7 @@ export default function FieldArray({ control, register, errors, setValue, getVal
               {item.type === 'position' && (
                 <Position
                   nestIndex={index}
+                  defaultValue={item}
                   {...{ control, register, errors, setValue, getValues }}
                 ></Position>
               )}
@@ -93,7 +94,7 @@ export default function FieldArray({ control, register, errors, setValue, getVal
         <button
           type='button'
           onClick={() => {
-            append({ name: 'position', type: 'position', value: 'Bobbo MacGee' });
+            append({ name: 'position', type: 'position', latitude: '', longitude: '' });
           }}
         >
           Position
