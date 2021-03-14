@@ -5,8 +5,13 @@ import ReactDOM from 'react-dom';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi, { string } from 'joi';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-import './styles.css';
+import './styles.scss';
 import FieldArray from './FieldArray';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import Product from './Product';
@@ -152,47 +157,86 @@ function App() {
   // const onSubmit = (data: any) => console.log('data', data);
 
   return (
-    <form onSubmit={handleSubmit((d) => console.log(d))}>
-      <input type='text' name='username' ref={register} />
-      {errors && errors.username && (
-        <span style={{ backgroundColor: 'red', color: 'white' }}>{errors.username.message}</span>
-      )}
-      <input type='text' name='age' ref={register} />
-      {errors && errors.age && (
-        <span style={{ backgroundColor: 'red', color: 'white' }}>{errors.age.message}</span>
-      )}
-      <input type='text' name='phoneNumber' ref={register} />
-      {errors && errors.phoneNumber && (
-        <span style={{ backgroundColor: 'red', color: 'white' }}>{errors.phoneNumber.message}</span>
-      )}
-      <FieldArray {...{ control, register, getValues, setValue, errors, defaultValues }} />
-      {errors && errors.list && (
-        <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {JSON.stringify(errors.list)}
-        </span>
-      )}
-      <Product
-        {...{
-          control,
-          register,
-          getValues,
-          setValue,
-          errors,
-          defaultValue: defaultValues.product,
-        }}
-      />
+    <Card bg='light'>
+      <Form onSubmit={handleSubmit((d) => console.log(d))} autoComplete='off' noValidate>
+        <Form.Group as={Row}>
+          <Form.Label column sm='1'>
+            Username
+          </Form.Label>
+          <Col sm={6}>
+            <Form.Control
+              name='username'
+              ref={register}
+              isInvalid={!!errors.username}
+            ></Form.Control>
+            {errors && errors.username && (
+              <Form.Control.Feedback type='invalid'>
+                {errors.username?.message}
+              </Form.Control.Feedback>
+            )}
+          </Col>
+        </Form.Group>
 
-      <div style={{ color: 'red' }}>
-        <pre>
-          {Object.keys(errors).length > 0 && <label>{JSON.stringify(errors, null, 2)}</label>}
-        </pre>
-      </div>
+        <Form.Group as={Row}>
+          <Form.Label column sm='1'>
+            Age
+          </Form.Label>
+          <Col sm={6}>
+            <Form.Control name='age' ref={register} isInvalid={!!errors.age}></Form.Control>
+            {errors && errors.age && (
+              <Form.Control.Feedback type='invalid'>{errors.age?.message}</Form.Control.Feedback>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Form.Label column sm='1'>
+            Phonenumber
+          </Form.Label>
+          <Col sm={6}>
+            <Form.Control
+              name='phoneNumber'
+              ref={register}
+              isInvalid={!!errors.phoneNumber}
+            ></Form.Control>
+            {errors && errors.phoneNumber && (
+              <Form.Control.Feedback type='invalid'>
+                {errors.phoneNumber?.message}
+              </Form.Control.Feedback>
+            )}
+          </Col>
+        </Form.Group>
+        <FieldArray {...{ control, register, getValues, setValue, errors, defaultValues }} />
 
-      <button type='button' onClick={() => reset(defaultValues)}>
-        Reset
-      </button>
-      <input type='submit' />
-    </form>
+        <Product
+          {...{
+            control,
+            register,
+            getValues,
+            setValue,
+            errors,
+            defaultValue: defaultValues.product,
+          }}
+        />
+        {errors && errors.list && (
+          <span style={{ backgroundColor: 'red', color: 'white' }}>
+            {JSON.stringify(errors.list)}
+          </span>
+        )}
+
+        <div style={{ color: 'red' }}>
+          <pre>
+            {Object.keys(errors).length > 0 && <label>{JSON.stringify(errors, null, 2)}</label>}
+          </pre>
+        </div>
+
+        <Button variant='primary' type='submit'>
+          Submit
+        </Button>
+        <Button variant='warning' onClick={() => reset(defaultValues)}>
+          Reset
+        </Button>
+      </Form>
+    </Card>
   );
 }
 
