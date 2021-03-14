@@ -217,11 +217,6 @@ function App() {
             defaultValue: defaultValues.product,
           }}
         />
-        {errors && errors.list && (
-          <span style={{ backgroundColor: 'red', color: 'white' }}>
-            {JSON.stringify(errors.list)}
-          </span>
-        )}
 
         <div style={{ color: 'red' }}>
           <pre>

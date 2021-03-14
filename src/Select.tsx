@@ -1,5 +1,9 @@
 import React from 'react';
 import { InputProps } from './InputProps';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export interface IPosition {
   color: string;
@@ -13,28 +17,37 @@ export interface ISelectProps extends InputProps {
 
 export default function Select({ nestIndex, defaultValue, register, errors }: ISelectProps) {
   return (
-    <div>
-      <select name={`list[${nestIndex}].color`} ref={register} defaultValue={defaultValue.color}>
-        <option value={'red'}>red</option>
-        <option value={'blue'}>blue</option>
-        <option value={'yellow'}>yellow</option>
-      </select>
-      {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].color && (
-        <span style={{ backgroundColor: 'red', color: 'white' }}>
-          {errors.list[nestIndex].color.message}
-        </span>
-      )}
-      <input
+    <Card bg='light'>
+      <Form.Group>
+        <Form.Control
+          as='select'
+          name={`list[${nestIndex}].color`}
+          ref={register}
+          defaultValue={defaultValue.color}
+          isInvalid={!!(errors.list && errors.list[nestIndex] && errors.list[nestIndex].color)}
+        >
+          <option value={'red'}>red</option>
+          <option value={'blue'}>blue</option>
+          <option value={'yellow'}>yellow</option>
+        </Form.Control>
+        {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].color && (
+          <Form.Control.Feedback type='invalid'>
+            {errors.list[nestIndex].color.message}
+          </Form.Control.Feedback>
+        )}
+      </Form.Group>
+      <Form.Control
+        readOnly
+        name={`list[${nestIndex}].type`}
+        ref={register}
+        defaultValue={defaultValue.type}
+      ></Form.Control>
+
+      <Form.Control
         readOnly
         type='text'
-        ref={register}
-        name={`list[${nestIndex}].type`}
-        defaultValue={defaultValue.type}
-      />
-      <input
-        type='text'
-        ref={register}
         name={`list[${nestIndex}].id`}
+        ref={register}
         defaultValue={defaultValue.id}
       />
       {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].type && (
@@ -42,6 +55,6 @@ export default function Select({ nestIndex, defaultValue, register, errors }: IS
           {errors.list[nestIndex].type.message}
         </span>
       )}
-    </div>
+    </Card>
   );
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import { useFieldArray } from 'react-hook-form';
+import Button from 'react-bootstrap/Button';
 import { InputProps } from './InputProps';
 import NestedArray from './NestedFieldArray';
 import Position from './Position';
 import Select from './Select';
+import Card from 'react-bootstrap/Card';
 
 let renderCount = 0;
 
@@ -16,60 +18,40 @@ export default function FieldArray({ control, register, errors, setValue, getVal
   renderCount++;
 
   return (
-    <>
-      <ul>
-        {fields.map((item, index) => {
-          return (
-            <li key={item.id}>
-              {item.type === 'select' && (
-                <Select
-                  nestIndex={index}
-                  defaultValue={item}
-                  {...{ control, register, errors, setValue, getValues }}
-                ></Select>
-              )}
-
-              {item.type === 'position' && (
-                <Position
-                  nestIndex={index}
-                  defaultValue={item}
-                  {...{ control, register, errors, setValue, getValues }}
-                ></Position>
-              )}
-
-              {/* <input name={`test[${index}].name`} ref={register()} defaultValue={item.name} />
-              {errors && errors.test && errors.test[index] && errors.test[index].name && (
-                <span style={{ backgroundColor: 'red', color: 'white' }}>
-                  {JSON.stringify(errors.test[index].name.message)}
-                </span>
-              )}
-              <button type='button' onClick={() => remove(index)}>
-                Delete
-              </button>
-              <NestedArray
-                nestIndex={index}
-                {...{ control, register, errors, setValue, getValues }}
-              />
+    <Card>
+      {fields.map((item, index) => {
+        return (
+          <li key={index}>
+            {item.type === 'select' && (
               <Select
                 nestIndex={index}
+                defaultValue={item}
                 {...{ control, register, errors, setValue, getValues }}
-              ></Select> */}
-            </li>
-          );
-        })}
-      </ul>
+              ></Select>
+            )}
+
+            {item.type === 'position' && (
+              <Position
+                nestIndex={index}
+                defaultValue={item}
+                {...{ control, register, errors, setValue, getValues }}
+              ></Position>
+            )}
+          </li>
+        );
+      })}
 
       <section>
-        <button
-          type='button'
+        <Button
+          variant='info'
           onClick={() => {
             append({ name: 'append' });
           }}
         >
           append
-        </button>
+        </Button>
 
-        <button
+        <Button
           type='button'
           onClick={() => {
             setValue('test', [
@@ -82,24 +64,24 @@ export default function FieldArray({ control, register, errors, setValue, getVal
           }}
         >
           Append Nested
-        </button>
+        </Button>
 
-        <button
+        <Button
           type='button'
           onClick={() => {
             append({ name: 'select', type: 'select', value: '2' });
           }}
         >
           Select
-        </button>
-        <button
+        </Button>
+        <Button
           type='button'
           onClick={() => {
             append({ name: 'position', type: 'position', latitude: '', longitude: '' });
           }}
         >
           Position
-        </button>
+        </Button>
 
         {/* <button
           type='button'
@@ -142,88 +124,6 @@ export default function FieldArray({ control, register, errors, setValue, getVal
       </section>
 
       <span className='counter'>Render Count: {renderCount}</span>
-    </>
+    </Card>
   );
 }
-
-/* const FieldArray: FC<InputProps> = ({ control, register, errors, setValue, getValues }) => {
-  const { fields, append, remove, prepend } = useFieldArray({
-    control,
-    name: 'test',
-  });
-
-  renderCount++;
-
-  return (
-    <>
-      <ul>
-        {fields.map((item, index) => {
-          return (
-            <li key={item.id}>
-              <input name={`test[${index}].name`} ref={register()} defaultValue={item.name} />
-
-              <button type='button' onClick={() => remove(index)}>
-                Delete
-              </button>
-              <NestedArray nestIndex={index} {...{ control, register }} />
-            </li>
-          );
-        })}
-      </ul>
-
-      <section>
-        <button
-          type='button'
-          onClick={() => {
-            append({ name: 'append' });
-          }}
-        >
-          append
-        </button>
-
-        <button
-          type='button'
-          onClick={() => {
-            setValue('test', [
-              ...getValues().test,
-              {
-                name: 'append',
-                nestedArray: [{ field1: 'append', field2: 'append' }],
-              },
-            ]);
-          }}
-        >
-          Append Nested
-        </button>
-
-        <button
-          type='button'
-          onClick={() => {
-            prepend({ name: 'append' });
-          }}
-        >
-          prepend
-        </button>
-
-        <button
-          type='button'
-          onClick={() => {
-            setValue('test', [
-              {
-                name: 'append',
-                nestedArray: [{ field1: 'Prepend', field2: 'Prepend' }],
-              },
-              ...getValues().test,
-            ]);
-          }}
-        >
-          prepend Nested
-        </button>
-      </section>
-
-      <span className='counter'>Render Count: {renderCount}</span>
-    </>
-  );
-};
-
-export default FieldArray; */
