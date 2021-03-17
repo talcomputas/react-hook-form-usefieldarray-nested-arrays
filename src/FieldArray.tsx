@@ -16,7 +16,6 @@ export default function FieldArray({ control, register, errors, setValue, getVal
     name: 'list',
   });
   renderCount++;
-
   return (
     <Card>
       {fields.map((item, index) => {
@@ -33,7 +32,7 @@ export default function FieldArray({ control, register, errors, setValue, getVal
             {item.type === 'position' && (
               <Position
                 nestIndex={index}
-                defaultValue={item}
+                defaultValues={item}
                 {...{ control, register, errors, setValue, getValues }}
               ></Position>
             )}

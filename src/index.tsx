@@ -144,7 +144,7 @@ function App() {
         longitude: '40',
       },
     ],
-    product: 'Tesla Model Ss',
+    product: 'Tesla Model SSSS',
   };
 
   const { control, register, handleSubmit, reset, errors, getValues, setValue } = useForm<FormData>(
@@ -205,7 +205,7 @@ function App() {
             )}
           </Col>
         </Form.Group>
-        <FieldArray {...{ control, register, getValues, setValue, errors, defaultValues }} />
+        <FieldArray {...{ control, register, getValues, setValue, errors }} />
 
         <Product
           {...{
@@ -214,7 +214,8 @@ function App() {
             getValues,
             setValue,
             errors,
-            defaultValue: defaultValues.product,
+            defaultValues,
+            // defaultValue: defaultValues.product,
           }}
         />
 

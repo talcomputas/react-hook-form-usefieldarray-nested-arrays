@@ -7,11 +7,9 @@ import Col from 'react-bootstrap/Col';
 
 export interface IPositionProps extends InputProps {
   nestIndex: number;
-  defaultValue: any;
 }
 
-export default function Position({ nestIndex, defaultValue, register, errors }: IPositionProps) {
-  console.log(nestIndex);
+export default function Position({ nestIndex, defaultValues, register, errors }: IPositionProps) {
   return (
     <Card key={nestIndex}>
       <Form.Group as={Row}>
@@ -23,7 +21,7 @@ export default function Position({ nestIndex, defaultValue, register, errors }: 
             name={`list[${nestIndex}].latitude`}
             ref={register}
             isInvalid={!!(errors.list && errors.list[nestIndex] && errors.list[nestIndex].latitude)}
-            defaultValue={defaultValue.latitude}
+            defaultValue={defaultValues.latitude}
           ></Form.Control>
           {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].latitude && (
             <Form.Control.Feedback type='invalid'>
@@ -44,7 +42,7 @@ export default function Position({ nestIndex, defaultValue, register, errors }: 
             isInvalid={
               !!(errors.list && errors.list[nestIndex] && errors.list[nestIndex].longitude)
             }
-            defaultValue={defaultValue.longitude}
+            defaultValue={defaultValues.longitude}
           ></Form.Control>
           {errors && errors.list && errors.list[nestIndex] && errors.list[nestIndex].longitude && (
             <Form.Control.Feedback type='invalid'>
@@ -65,7 +63,7 @@ export default function Position({ nestIndex, defaultValue, register, errors }: 
         type='text'
         name={`list[${nestIndex}].id`}
         ref={register}
-        defaultValue={defaultValue.id}
+        defaultValue={defaultValues.id}
       />
     </Card>
   );

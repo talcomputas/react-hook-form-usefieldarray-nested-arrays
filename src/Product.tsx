@@ -3,11 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export interface IProductProps extends InputProps {
-  defaultValue: any;
-}
-
-export default function Product({ register, errors, defaultValue }: IProductProps) {
+export default function Product({ register, errors }: InputProps) {
   return (
     <Form.Group>
       <Form.Group as={Row}>
