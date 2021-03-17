@@ -9,6 +9,7 @@ import { InputProps } from './InputProps';
 import ValueAlternative from './ValueAlternative';
 
 interface IProps extends InputProps {
+  nestIndex: number;
   altIndex: number;
   prefix: string;
 }
@@ -19,9 +20,8 @@ export default function AlternativeArray({
   errors,
   getValues,
   setValue,
-  defaultValues,
-  altIndex,
   prefix,
+  nestIndex,
 }: IProps): ReactElement {
   const { fields, append } = useFieldArray({
     keyName: 'guid',
@@ -38,6 +38,8 @@ export default function AlternativeArray({
             <div key={item.id}>
               {item.type === 'value' && (
                 <ValueAlternative
+                  nestIndex={nestIndex}
+                  altIndex={index}
                   prefix={`${prefix}[${index}]`}
                   item={item}
                   {...{

@@ -40,7 +40,6 @@ export interface IValue extends ISavable {
   step: number;
   unit: string;
 }
-
 export interface IPosition extends ISavable {
   latitude: string;
   longitude: string;
@@ -65,7 +64,7 @@ const selectSchema = Joi.object().keys({
 const valueSchema = Joi.object().keys({
   id: Joi.string().required(),
   type: Joi.string().equal('value').required(),
-  step: Joi.number().min(1).max(1000000000).required(),
+  step: Joi.number().min(100).max(1000000000).required(),
   min: Joi.number().min(0).max(1000000000).required(),
   max: Joi.number().min(0).max(1000000000).required(),
   unit: Joi.string().required(),

@@ -3,10 +3,13 @@ import { InputProps } from './InputProps';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { number } from 'joi';
 
 interface IProps extends InputProps {
   item: any;
   prefix: string;
+  nestIndex: number;
+  altIndex: number;
 }
 
 export default function ValueAlternative({
@@ -15,6 +18,8 @@ export default function ValueAlternative({
   defaultValues,
   item,
   prefix,
+  nestIndex,
+  altIndex,
 }: IProps) {
   return (
     <Form.Group>
@@ -26,8 +31,26 @@ export default function ValueAlternative({
           type='input'
           name={`${prefix}.step`}
           defaultValue={item.step}
-          ref={register}
+          ref={register()}
+          isInvalid={
+            !!(
+              errors.list &&
+              errors.list[nestIndex] &&
+              errors.list[nestIndex].alts &&
+              errors.list[nestIndex].alts[altIndex] &&
+              errors.list[nestIndex].alts[altIndex].step
+            )
+          }
         />
+        {errors.list &&
+          errors.list[nestIndex] &&
+          errors.list[nestIndex].alts &&
+          errors.list[nestIndex].alts[altIndex] &&
+          errors.list[nestIndex].alts[altIndex].step && (
+            <Form.Control.Feedback type='invalid'>
+              {errors.list[nestIndex].alts[altIndex].step.message}
+            </Form.Control.Feedback>
+          )}
         <Form.Control
           type='input'
           name={`${prefix}.unit`}

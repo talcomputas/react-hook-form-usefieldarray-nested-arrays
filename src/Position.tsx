@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import AlternativeArray from './AlternativeArray';
-
 export interface IPositionProps extends InputProps {
   nestIndex: number;
 }
@@ -19,7 +18,6 @@ export default function Position({
   setValue,
   getValues,
 }: IPositionProps) {
-  console.log(defaultValues);
   return (
     <Card key={nestIndex}>
       <Form.Group as={Row}>
@@ -76,6 +74,7 @@ export default function Position({
         defaultValue={defaultValues.id}
       />
       <AlternativeArray
+        nestIndex={nestIndex}
         prefix={`list[${nestIndex}].alts`}
         altIndex={nestIndex}
         {...{
