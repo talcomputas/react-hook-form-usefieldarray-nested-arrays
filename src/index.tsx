@@ -34,10 +34,18 @@ export interface SelectType extends Savable {
   color: string;
 }
 
+export interface ValueType extends Savable {
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+}
+
 export interface PositionType extends Savable {
   latitude: string;
   longitude: string;
   type: string;
+  alts: ValueType[];
 }
 
 type FormData = {
@@ -54,14 +62,36 @@ const selectSchema = Joi.object().keys({
   type: Joi.string().equal('select').required(),
 });
 
+const valueSchema = Joi.object().keys({
+  id: Joi.string().required(),
+  type: Joi.string().equal('value').required(),
+  step: Joi.number().min(1).max(1000000000).required(),
+  min: Joi.number().min(0).max(1000000000).required(),
+  max: Joi.number().min(0).max(1000000000).required(),
+  unit: Joi.string().required(),
+});
+
+const codelistSchema = Joi.object().keys({
+  type: Joi.string().equal('codelist').required(),
+  codelist: Joi.string().required(),
+});
+
 const positionSchema = Joi.object().keys({
   id: Joi.string().allow(null, '').required(),
   latitude: Joi.string().alphanum().min(1).max(4).required(),
   longitude: Joi.string().min(1).max(4).required(),
   type: Joi.string().min(1).required(),
+  alts: Joi.array().items(
+    Joi.alternatives().conditional('.type', {
+      switch: [
+        { is: 'value', then: valueSchema },
+        { is: 'codelist', then: codelistSchema },
+      ],
+    })
+  ),
 });
 
-const arraySchema = Joi.array().items(selectSchema, positionSchema).required();
+// const arraySchema = Joi.array().items(selectSchema, positionSchema).required();
 
 /*const arraySchema = Joi.array()
   .items(Joi.when('type', { is: 'select', then: selectSchema }))
@@ -142,6 +172,16 @@ function App() {
         type: 'position',
         latitude: '30',
         longitude: '40',
+        alts: [
+          {
+            id: '46745645',
+            type: 'value',
+            min: 10,
+            max: 100,
+            step: 1,
+            unit: '',
+          },
+        ],
       },
     ],
     product: 'Tesla Model SSSS',
