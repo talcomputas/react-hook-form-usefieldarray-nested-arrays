@@ -1,4 +1,4 @@
-import { PositionType } from '.';
+import { IPosition } from '.';
 import { InputProps } from './InputProps';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';

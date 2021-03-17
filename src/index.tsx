@@ -25,33 +25,33 @@ export type ArrayData = {
   nestedArray?: nestedArrayType[];
 };*/
 
-export interface Savable {
+export interface ISavable {
   id: string;
   type: string;
 }
 
-export interface SelectType extends Savable {
+export interface ISelect extends ISavable {
   color: string;
 }
 
-export interface ValueType extends Savable {
+export interface IValue extends ISavable {
   min: number;
   max: number;
   step: number;
   unit: string;
 }
 
-export interface PositionType extends Savable {
+export interface IPosition extends ISavable {
   latitude: string;
   longitude: string;
   type: string;
-  alts: ValueType[];
+  alts: IValue[];
 }
 
 type FormData = {
   username: string;
   age: number;
-  list: Array<SelectType | PositionType>;
+  list: Array<ISelect | IPosition>;
   phoneNumber: string;
   product: string;
 };
